@@ -10,52 +10,42 @@ function crearSala() {
 	const listaParticipantes =
 	document.getElementById("listaParticipantes");
 	
-	const item =
-document.createElement("li");
-
-item.innerHTML =
-`
-${sala.nombre}
-`;
-
-const listaSalas =
-document.getElementById("listaSalas");
-
-listaSalas.appendChild(item);
+	const listaSalas =
+    document.getElementById("listaSalas");
 	
-	const infoSala =
+    const infoSala =
 	document.getElementById("infoSala");
 	
 	if (!nombreSala || nombreSala.value.trim() === "") {
 		
-		alert("Escribe un nombre paara crear la sala");
+		alert("Escribe un nombre para crear la sala");
 		return;
 		
 	}
-	
+
 	const sala = {
 		nombre: nombreSala.value,
 		fecha: new Date().toLocaleString()
 	};
 	
 	salas.push(sala);
-	
-	infoSala.innerHTML =
-	`
-	<strong>Sala:</strong> ${sala.nombre}<br>
-	<strong>creada:</strong> ${sala.fecha}
-	`;
-	
-	const item =
-	document.createElement("li");
-	
-	item.innerHTML =
-	`
-	${sala.nombre}
-	`;
-	
-	listaParticipantes.appendChild(item);
-	
+
+//Mostrar informacion de la sala creada
+    infoSala.innerHTML = `
+        <strong>Sala:</strong> ${sala.nombre}<br>
+        <strong>Creada:</strong> ${sala.fecha}
+    `;
+     // A gregar sala a la lista de salas
+    const itemSala = document.createElement("li");
+    itemSala.textContent = sala.nombre;
+    listaSalas.appendChild(itemSala);
+    
+	//Agregar sala tambien a la lista de participantes
+    const itemParticipante = document.createElement("li");
+    itemParticipante.textContent = sala.nombre;
+    listaParticipantes.appendChild(itemParticipante);
+   
+	//Limpiar el input
 	nombreSala.value = "";
 	
 }
