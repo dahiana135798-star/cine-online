@@ -36,7 +36,7 @@ function guardarPerfil(){
 		
 	};
 	
-	localStorege.setItem(
+	localStorage.setItem(
 	    "perfil",
 		JSON.stringify(perfil)
 	);
