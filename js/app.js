@@ -3,15 +3,15 @@
 const btnCrearSala =
 document.getElementById("btnCrearSala");
 
-if(btnCrearSala);{
+if(btnCrearSala)
+
+{
 	
 btnCrearSala.addEventListener("click", ()=>{
 	
-	const nombreSala =
-	document.getElementById("nombreSala").value;
+	const nombreSala = document.getElementById("nombreSala").value;
 	
-	const infoSala =
-	document.getElementById("infoSala");
+	const infoSala = document.getElementById("infoSala");
 	
 	if(nombreSala === ""){
 		
@@ -20,10 +20,9 @@ btnCrearSala.addEventListener("click", ()=>{
 		
 	}
 	
-	infoSala.innerHTML =
-	"Sala creada: " + nombreSala;
+	infoSala.innerHTML = "Sala creada: " + nombreSala;
 	
-});
+    });
 
 }
 
@@ -62,5 +61,3 @@ btnCompartir.addEventListener("click", ()=>{
 	`;
 	
 });
-
-}
