@@ -18,21 +18,15 @@ function registrarParticipantes(){
 	const usuario =
 	document.getElementById("usuario");
 	
-	if(!usuario){
-		
-		return;
-		
-	}
-	
 	if(usuario.value.trim() === ""){
-		
+		alert("Debes escribir tu nombre");
 		return;
 		
 	}
 	
 	push(participantesRef,{
 		
-		nombre: usuario.value,
+		nombre: usuario.value, // usar 'usuario' para ser consistente
 		fecha: Date.now()
 		
 	});
