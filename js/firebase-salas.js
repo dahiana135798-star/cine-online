@@ -1,82 +1,64 @@
-function crearSalaFirebase(){
+// Lista de salas creadas
+let salas = [];
 
-    console.log("Botón Crear Sala presionado");
-
-    const nombreSala =
-    document.getElementById("nombreSala");
-
-}
-import { db } from "./firebase-config.js";
-
-import {
-	ref,
-	push,
-	onChildAdded
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
-
-// Referencia a las salas
-
-const salasRef = ref(db, "salas");
-
-//Botom crear sala
-
-const btnCrearSala =
-document.getElementById("btnCrearSala");
-
-if(btnCrearSala){
-	
-	btnCrearSala.addEventListener(
-	    "click",
-		crearSalaFirebase
-	);
-	
-}
-
-function crearSalaFirebase(){
+//Crear sala 
+function crearSala() {
 	
 	const nombreSala =
 	document.getElementById("nombreSala");
-
-    if(nombreSala.value.trim() === ""){
+	
+	const listaParticipantes =
+	document.getElementById("listaParticipantes");
+	
+	const listaSalas =
+    document.getElementById("listaSalas");
+	
+    const infoSala =
+	document.getElementById("infoSala");
+	
+	if (!nombreSala || nombreSala.value.trim() === "") {
 		
-		alert("Escribe un nombre para la sala");
-		
+		alert("Escribe un nombre para crear la sala");
 		return;
 		
 	}
-	
-	push(salasRef,{
-		
+
+	const sala = {
 		nombre: nombreSala.value,
-		fecha: Date.now()
-		
-	});
+		fecha: new Date().toLocaleString()
+	};
 	
+	salas.push(sala);
+
+//Mostrar informacion de la sala creada
+    infoSala.innerHTML = `
+        <strong>Sala:</strong> ${sala.nombre}<br>
+        <strong>Creada:</strong> ${sala.fecha}
+    `;
+     // A gregar sala a la lista de salas
+    const itemSala = document.createElement("li");
+    itemSala.textContent = sala.nombre;
+    listaSalas.appendChild(itemSala);
+    
+	//Agregar sala tambien a la lista de participantes
+    const itemParticipante = document.createElement("li");
+    itemParticipante.textContent = sala.nombre;
+    listaParticipantes.appendChild(itemParticipante);
+   
+	//Limpiar el input
 	nombreSala.value = "";
 	
 }
 
-//Mostar salas automaticamente
+//Buscar boton
+const botonSala =
+document.getElementById("btnCrearSala");
 
-onChildAdded(salasRef,(data)=>{
+if(botonSala){
 	
-	const sala = data.val();
+	botonSala.addEventListener(
+	 "click",
+	 crearSala
+	);
 	
-	const lista =
-	document.getElementById("listaSalas");
-	
-	if(!lista){
-		
-		return;
-		
-	}
-	
-	const li =
-	document.createElement("li");
-	
-	li.textContent =
-	sala.nombre;
-	
-	lista.appendChild(li);
-	
-});
+}
