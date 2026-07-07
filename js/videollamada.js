@@ -11,7 +11,7 @@ const videoLocal = document.getElementById("videoLocal");
 const videoRemoto = document.getElementById("videoRemoto");
 
 //Activar camara
-if(btnnCamara){
+if(btnCamara){
 	btnCamara.addEventListener("click", activarCamara);
 }
 
