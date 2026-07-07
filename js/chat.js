@@ -28,7 +28,7 @@ function enviarMensaje(){
 	
 	nuevoMensaje.innerHTML =
 	"<strong>Usuario:</strong> " +
-	mensaje.value;
+	mensaje.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 	
 	chatBox.appendChild(nuevoMensaje);
 	
