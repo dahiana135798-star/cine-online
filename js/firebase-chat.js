@@ -44,6 +44,8 @@ function enviarMensaje(){
 		
 	}
 	
+	const usuario= document.getElementById("usuario").value || "Anonimo";
+	
 	push(chatRef, {
 		
 		usuario: "usuario",
@@ -69,12 +71,12 @@ onChildAdded(chatRef, (data)=>{
 	const div =
 	document.createElement("div");
 	
-	div.classList.add("messaje");
+	div.classList.add("message");
 	
 	div.innerHTML =
 	`
-	<strong>${mensaje.usuario}</strong>
-	${mensaje.mensaje}
+	<strong>${mensaje.usuario}</strong>:
+	${mensaje.mensaje.replace(/</g; "&lt;")}
     `;
     
     chatBox.appendChild(div);
@@ -83,4 +85,3 @@ onChildAdded(chatRef, (data)=>{
 	chatBox.scrollHeight;
 	
 });
-	
