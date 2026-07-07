@@ -4,7 +4,7 @@ function crearSalaFirebase(){
 
     const nombreSala =
     document.getElementById("nombreSala");
-
+...
 }
 import { db } from "./firebase-config.js";
 
