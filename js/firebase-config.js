@@ -1,13 +1,13 @@
 // firebase sdk
 
 import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+from "https://www.gstatic.com/firebasejs/12.2.2/firebase-app.js";
 
 import { getAuth }
 from "https://www.gstatic.com/firebasejs/12.2.2/firebase-auth.js";
 
 import { getDatabase }
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+from "https://www.gstatic.com/firebasejs/12.2.2/firebase-database.js";
 
 //configuracion de tu proyecto firebase
 
