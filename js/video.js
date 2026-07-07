@@ -58,10 +58,10 @@ function cargarYoutube(){
 	
 	if(link.includes("v=")){
 		
-		videoID =
-		link.split("v=")[1]
-		.split("&")[0];
-		
+		videoID = link.split("v=")[1].split("&")[0];
+	}
+		else if(link.includes("youtu.be/")){
+		videoID = link.split("youtu.be/")[1].split("?")[0];
 	}
 	
 	if(videoID === ""){
@@ -77,7 +77,12 @@ function cargarYoutube(){
 	contenedor.innerHTML =
 	`
 	<iframe
+	width="560"
+	height="315"
 	src="https://www.youtube.com/embed/${videoID}"
+	title="YouTube video"
+	frameborder="0"
+	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 	allowfullscreen>
 	</iframe>
 	`;
