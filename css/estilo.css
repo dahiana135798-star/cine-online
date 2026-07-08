@@ -42,12 +42,17 @@ nav a{
 	text-decoration:none;
 	padding:10px 15px;
 	border-radius:8px;
+	transition: all .3s ease;
 }
 
 nav a:hover{
 	background:#3a4152;
 }
 
+button:focus, nav a:focus {
+	outline:2px solid #73b7ff;
+	outline-offset:2px;
+}
 main{
 	width:95%;
 	max-width:1200px;
@@ -78,7 +83,7 @@ input{
 }
 
 input::placeholder{
-	color:#cccccc;
+	color:#dddddd;
 }
 
 button{
@@ -88,7 +93,7 @@ button{
 	padding:12px 18px;
 	border-radius:10px;
 	cursor:pointer;
-	transition:.3s;
+	transition: all .3s ease;
 }
 
 button:hover{
@@ -117,6 +122,12 @@ button:hover{
 	border-radius:8px;
 }
 
+#listaSalas li {
+	padding:1opx;
+	background:#2b3242;
+	margin-bottom:8px;
+	border-radius:8px;
+}
 #listaEnlaces{
 	margin-top:15px;
 }
@@ -184,6 +195,9 @@ footer{
 	padding:20px;
 	background:#181c25;
 	margin-top:20px;
+	position:fixed;
+	bottom:0;
+	width:100%;
 }
 
 @media(max-width:768px){
