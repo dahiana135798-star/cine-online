@@ -5,7 +5,7 @@ import {
 	push,
 	set,
 	onValue
-}from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+}from "https://www.gstatic.com/firebasejs/12.2.2/firebase-database.js";
 
 // Configuracion STUN
 const configuration = {
@@ -28,7 +28,7 @@ const videoRemoto = document.getElementById("videoRemoto");
 // Referencia en firebase
 const llamadaRef = ref(db, "llamada");
 
-// Crear llamada
+// Crear llamada (oferta)
 if(btnLlamada){
 	
 	btnLlamada.addEventListener("click", iniciarLlamada);
@@ -64,7 +64,15 @@ async function iniciarLlamada() {
 		
 	};
 	
-// Crear la oferta (offer)
+// Enviar ICE candidatos del lado oferta
+peerConnection.onicecandidate = async event =>{
+	if(event.candidate){
+		await push(ref(db, "llamada/candidates/oferta"), event.candidate.toJSON());
+	}
+	
+};
+
+//Crear la oferta
 
 const oferta = await peerConnection.createOffer();
 
@@ -79,7 +87,7 @@ await set(ref(db, "llamada/oferta"), {
 
 // Escuchar la respuesta (Answer)
 
-onValue(ref(db, "llamada/respuesta"), async (snapshot) => {
+onValue(ref(db, "llamada/respuesta"), async snapshot => {
 	
     const respuesta = snapshot.val();
 
@@ -97,24 +105,9 @@ if (!peerConnection.currentRemoteDescription) {
 		
 });
 
-// Enviar ICE Candidates a firebase
+//Recibir ICE Candidates del lado RESPUESTA
 
-peerConnection.onicecandidate = async (event) => {
-	
-	if(event.candidate) {
-		
-		await push(
-		    ref(db, "llamada/candidates"),
-		    event.candidate.toJSON()
-		);
-		
-	}
-	
-};
-
-//Recibir ICE Candidates
-
-onValue(ref(db, "llamada/candidates"), (snapshot) => {
+onValue(ref(db, "llamada/candidates/respuesta"), (snapshot) => {
 	
 	if (!snapshot.exists()) {
 		return;
@@ -128,6 +121,47 @@ onValue(ref(db, "llamada/candidates"), (snapshot) => {
 		    new RTCIceCandidate(candidate)
 			);
 			
+	});
+	
+});
+
+//RESPONDER a la oferta (segundo usuario)
+onValue(ref(db, "llamada/oferta"), async snapshot => {
+	const oferta = snapshot.val();
+	if (!oferta) 
+		return;
+	
+	peerConnection = new navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+	videoLocal.srcObject= localStream;
+	
+	localStream.getTracks().forEach(track => {
+		peerConnection.addTrack(track, localStream);
+	});
+	
+	const remoteStream = new MediaStream();
+	videoRemoto.srcObject = remoteStream;
+	
+	peerConnection.ontrack = event => {
+		event.streams[0].getTracks().forEach(track => {
+			remoteStream.addTracks(track);
+		});
+	};
+	
+	//Enviar ICE candidates del lado RESPUESTA
+	peerConnection.onicecandidate = async event => {
+		if (event.candidate){
+			await push(ref(db, "llamada/candidates/respuesta"), event.candidate.toJSON());
+		}
+	};
+	
+	await peerConnection.setRemoteDescription(new RTCSessionDescription(oferta));
+	
+	const answer =await peerConnection.createAnswer();
+	await peerConnection.setLocalDescription(answer);
+	
+	await set(ref(db, "llamada/respuesta"), {
+		type: answer.type,
+		sdp: answer.sdp
 	});
 	
 });
